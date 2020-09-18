@@ -1,10 +1,11 @@
 {
     "files.exclude": {
-        "kernel/*.o": true,
-        "kernel/*.d": true,
-        "kernel/*.bin": true,
-        "kernel/*.img": true,
-        "kernel/*.kernel": true,
+        "**/*.o": true,
+        "**/*.d": true,
+        "**/*.bin": true,
+        "**/*.img": true,
+        "**/*.kernel": true,
+        "kernel/build": true,
         "*.diff": true,
         "*.failure": true,
         "*.out": true,

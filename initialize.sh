@@ -61,8 +61,7 @@ echo "done"
 #~~~~~~~~
 echo -n "Adding color messages to Makefile ... "
 MKFILE="${wd}/Makefile"
-grep "PASS :=" "$MKFILE" > /dev/null
-if [[ $? -ne 0 ]]; then
+if ! grep "PASS :=" "$MKFILE" > /dev/null ; then
     sed -i '1s/^/FAIL := $(shell echo "\\e[0;31mfail\\e[0m")\n/' "$MKFILE"
     sed -i '1s/^/PASS := $(shell echo "\\e[0;32mpass\\e[0m")\n/' "$MKFILE"
     sed -i 's/"pass"/"$(PASS)"/' "$MKFILE"

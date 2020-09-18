@@ -1,0 +1,18 @@
+{
+    "files.exclude": {
+        "kernel/*.o": true,
+        "kernel/*.d": true,
+        "kernel/*.bin": true,
+        "kernel/*.img": true,
+        "kernel/*.kernel": true,
+        "*.diff": true,
+        "*.failure": true,
+        "*.out": true,
+        "*.raw": true,
+        "*.result": true,
+        "*.time": true
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/kernel"
+    ]
+}

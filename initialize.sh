@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 wd="$1"
+srcdir="$( dirname "${BASH_SOURCE[0]}" )"
 
 if [[ "$wd" == "" ]]; then
     # wd="$(pwd)"
@@ -35,20 +36,14 @@ touch "${wd}/spamon"
 echo "Writing exclude files to .vscode/settings.json"
 VSCSET="${wd}/.vscode/settings.json"
 
-mkdir "${wd}/.vscode" &> /dev/null
-touch "$VSCSET"
-if [[ $(stat -c %s $VSCSET) == '0' ]]; then
-    echo "{}" > "$VSCSET"
+[[ -d "${wd}/.vscode" ]] || mkdir "${wd}/.vscode"
+if [[ ! -f "$VSCSET" ]] || [[ $(stat -c %s "$VSCSET") == '0' ]]; then
+    cp "${srcdir}/default.json" "$VSCSET"
+else
+    jq -s --indent 4 '.[0] * .[1]' "${srcdir}/default.json" "$VSCSET" > "$VSCSET.tmp"
+    mv -f "$VSCSET.tmp" "$VSCSET"
+    rm -f "$VSCSET.tmp"
 fi
-
-# jq can't edit in-place so use some temporary files
-jq --indent 4 '. *= {"files.exclude": {}, "C_Cpp.default.includePath": []}' "$VSCSET" > "$VSCSET.tmp"
-mv -f "$VSCSET.tmp" "$VSCSET"
-jq --indent 4 '.["files.exclude"] *= {("*/*.o"): true, ("*/*.d"): true}' "$VSCSET" > "$VSCSET.tmp"
-mv -f "$VSCSET.tmp" "$VSCSET"
-jq --indent 4 '.["C_Cpp.default.includePath"] += ["${workspaceFolder}/kernel"]' "$VSCSET" > "$VSCSET.tmp"
-mv -f "$VSCSET.tmp" "$VSCSET"
-rm -f "$VSCSET.tmp"
 
 
 #~~~~~~~~

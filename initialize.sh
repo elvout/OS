@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+set -e
+
 wd="$1"
 srcdir="$( dirname "${BASH_SOURCE[0]}" )"
 
